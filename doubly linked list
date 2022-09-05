@@ -1,0 +1,102 @@
+#include <iostream>
+using namespace std;
+class Node{
+    public:
+    int data;
+    Node* prev;
+    Node* next;
+    
+    Node(int val){
+        this-> data = val;
+        this-> prev = NULL;
+        this-> next = NULL;
+    }
+    
+};
+void insertAthead(Node* &head, int d){
+    Node* temp = new Node(d);
+    temp-> next = head;
+    head->prev = temp;
+    head = temp;
+}
+void insertAttail(Node* &tail,int d){
+    Node* temp = new Node(d);
+    tail-> next = temp;
+    temp->prev = tail;
+    tail = tail-> next;
+}
+void insertAtpos(Node* &head, Node* &tail, int d, int pos){
+    if(pos==1){
+        insertAthead(head,d);
+        return;
+    }
+    Node* temp = head;
+    int count = 1;
+    while(count<pos-1){
+        temp = temp-> next;
+        count++;
+    }
+    if(temp-> next==NULL){
+        insertAttail(tail,d);
+        return;
+    }
+    Node* nodeToinsert = new Node(d);
+    nodeToinsert-> next = temp-> next;
+    temp-> next-> prev = nodeToinsert;
+    temp-> next = nodeToinsert;
+    nodeToinsert-> prev = temp;
+}
+
+void print(Node* head){
+    Node* temp = head;
+    while(temp!=NULL){
+        cout<<temp-> data<<" ";
+        temp = temp-> next;
+    } cout<<endl;
+}
+int search(Node* &head, int key){
+    Node* temp = head;
+    int count = 1;
+    while(temp!=NULL){
+        if(temp-> data == key){
+            return count;
+        }
+        count++;
+        temp = temp-> next;
+    }
+    return -1;
+}
+int getlength(Node* head){
+    Node* temp = head;
+    int len=0;
+    while(temp!=NULL){
+        len++;
+        temp=temp-> next;
+    }
+    return len;
+}
+int main(){
+    Node* node1 = new Node(10);
+    print(node1);
+    Node* head = node1;
+    Node* tail = node1;
+    insertAthead(head,21);
+    print(head);
+    insertAttail(tail,55);
+    print(head);
+    cout<<"Tail is"<<" "<<tail-> data<<endl;
+    cout<<"Head is"<<" "<<head-> data<<endl;
+    insertAtpos(head,tail,54,1);
+    print(head);
+    insertAtpos(head,tail,100,5);
+    print(head);
+    cout<<"Tail is"<<" "<<tail-> data<<endl;
+    cout<<"Head is"<<" "<<head-> data<<endl;
+    int key;
+    cout<<"Enter the key"<<endl;
+    cin>>key;
+  //  cout<<"Enter the key"<<endl;
+    cout<<"Key to be searched is at position is"<<search(head,key)<<endl;
+    cout<<"Length is"<<getlength(head);
+    return 0;
+}
