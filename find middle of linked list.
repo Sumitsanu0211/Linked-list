@@ -1,0 +1,66 @@
+#include <iostream>
+using namespace std;
+class Node{
+    public:
+    int data;
+    Node* next;
+    Node(int val){
+        this-> data = val;
+        this-> next = NULL;
+    }
+};
+
+void insertAthead(Node* &head, int d){
+   
+    Node* temp = new Node(d);
+    if(head==NULL){
+        head=temp;
+        return;
+    }
+    temp-> next = head;
+    head = temp;
+}
+int getLength(Node* head){
+    Node* temp = head;
+    int count=0;
+    while(temp!=NULL){
+        count++;
+        temp=temp-> next;
+    }
+    return count;
+}
+int getMiddle(Node* head){
+        int ans = getLength(head);
+    int mid = (ans/2)+1;
+
+    Node* temp = head;
+    int count = 1;
+    while(count<mid){
+        temp=temp-> next;
+        count++;
+    }
+
+
+    return temp-> data;
+}
+void print(Node* head){
+    Node* temp = head;
+    while(temp!=NULL){
+        cout<<temp-> data<<" ";
+        temp = temp-> next;
+    } cout<<endl;
+}
+int main(){
+    Node* head = NULL;
+    insertAthead(head,10);
+    print(head);
+    insertAthead(head,20);
+    insertAthead(head,23);
+    insertAthead(head,54);
+    insertAthead(head,28);
+    insertAthead(head,53);
+    print(head);
+    cout<<"Length of this linked list is:"<<getLength(head)<<endl;
+    cout<<"The middle element if this linked list is:"<<getMiddle(head)<<endl;
+    return 0;
+}
